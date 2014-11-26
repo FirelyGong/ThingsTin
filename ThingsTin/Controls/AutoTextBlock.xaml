@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="ThingsTin.Controls.AutoTextBlock"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d">
+    <Grid>
+        <TextBlock Name="text" FontWeight="Bold">
+            <TextBlock.Triggers>
+                <EventTrigger RoutedEvent="TextBlock.TextInput">
+                    <BeginStoryboard>
+                        <Storyboard Name="story" AutoReverse="False" Completed="story_Completed" FillBehavior="Stop">
+                            <DoubleAnimation Storyboard.TargetName="text" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:7">
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </TextBlock.Triggers>
+        </TextBlock>
+    </Grid>
+</UserControl>

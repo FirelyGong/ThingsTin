@@ -1,0 +1,401 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ttm="clr-namespace:ThingsTin.Models"
+                    xmlns:ttc="clr-namespace:ThingsTin.Converters">
+    <ResourceDictionary.MergedDictionaries>
+        <!--<ResourceDictionary Source="pack://application:,,,/ThingsTin.Resources;Component/Resource.xaml"></ResourceDictionary>-->
+        <ResourceDictionary Source="../Themes/Generic.xaml"></ResourceDictionary>
+    </ResourceDictionary.MergedDictionaries>
+    <ttc:ExpanderIconConverter x:Key="expandericon"></ttc:ExpanderIconConverter>
+    <ttc:IntToVisibilityConverter x:Key="intvisibility"></ttc:IntToVisibilityConverter>
+    <Style x:Key="modelWindowShadow" TargetType="Border">
+        <Setter Property="CornerRadius" Value="1"></Setter>
+        <Setter Property="Margin" Value="5,5,5,5"></Setter>
+        <Setter Property="Effect">
+            <Setter.Value>                
+                <DropShadowEffect Color="#FFC7C5C5" BlurRadius="10" Opacity="1" ShadowDepth="0"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Path x:Shared="False" x:Key="xPath" Data="M6,6 L6,6 10,10 M10,6 L10,6 6,10" Fill="Black" Stretch="Fill" Stroke="Black" StrokeThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
+    <Style x:Key="closeButtonInTabitem" TargetType="Button">
+        <Setter Property="Content" Value="{StaticResource xPath}"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Ellipse x:Name="ButtonEllipse" Width="17" Height="17" StrokeThickness="0.5" Fill="Transparent" Stroke="Gray"></Ellipse>
+                        <Path Data="M6,6 L6,6 10,10 M10,6 L10,6 6,10" Width="9" Height="9" Fill="Black" Stretch="Fill" Stroke="Black" StrokeThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="ButtonEllipse" Property="StrokeThickness" Value="1"></Setter>
+                            <Setter TargetName="ButtonEllipse" Property="Fill" Value="{DynamicResource OpButtonHoverBorder}"></Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="tabItem" TargetType="ttm:OperationPageInfo">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TabItem">
+                    <Grid Height="{DynamicResource TabHeaderHeight}">
+                        <Border Name="border" Margin="5,0,0,0" CornerRadius="3,3,0,0" BorderThickness="1,1,1,0"
+                                BorderBrush="{DynamicResource ActiveTabHeaderBorder}" Background="{DynamicResource ActiveTabHeaderBackground}">
+                            <Grid Margin="0,1,0,0">
+                                <ContentPresenter x:Name="ContentSite"
+                                              VerticalAlignment="Center"
+                                              HorizontalAlignment="Center"
+                                              ContentSource="Header"
+                                              Margin="0"
+                                              RecognizesAccessKey="True" />
+                            </Grid>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="false">
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource ResourceKey=InactiveTabHeaderBackground}" />
+                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource ResourceKey=InactiveTabHeaderBorder}" />
+                            <!--<Setter TargetName="tabFront" Property="Background" Value="{DynamicResource ResourceKey=InactiveTabHeaderBorder}" />-->
+                            <Setter Property="Foreground" Value="Gray"></Setter>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource ResourceKey=DisabledTabHeaderBackground}" />
+                            <!--<Setter TargetName="tabFront" Property="Background" Value="{DynamicResource ResourceKey=InactiveTabHeaderBorder}" />-->
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+            </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="HeaderTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Name="HeadText" Grid.Column="0" Margin="10,0,5,0" FontWeight="Bold"
+                                   Foreground="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType=TabItem, Mode=FindAncestor}}" 
+                                   Text="{Binding Path=Header,RelativeSource={RelativeSource AncestorType=TabItem, Mode=FindAncestor}}"></TextBlock>
+                        <Button Grid.Column="1" Margin="0,-3,2,0" Style="{StaticResource ResourceKey=closeButtonInTabitem}" 
+                                Command="{Binding Path=ClosePage, RelativeSource={RelativeSource AncestorType=ttm:OperationPageInfo,Mode=FindAncestor}}"
+                                CommandParameter="{Binding Path=Tag,RelativeSource={RelativeSource AncestorType=TabItem, Mode=FindAncestor}}"></Button>
+                    </Grid>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="navigateButton" TargetType="Button">
+        <Setter Property="Background" Value="Transparent"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Grid Background="Transparent">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="20"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <!--<Rectangle Name="background" Grid.ColumnSpan="3" Fill="Transparent"></Rectangle>-->
+                        <Image Name="icon" Width="20" Height="20" Margin="0,0,5,0" Source="{Binding Path=ImageSource}"></Image>
+                        <TextBlock Name="text" Grid.Column="1" VerticalAlignment="Center" FontWeight="Bold" Text="{Binding Path=Text}"></TextBlock>
+                        <!--<Rectangle Name="flag" Grid.Column="2" Width="10" Margin="10,0,0,0" Fill="Transparent"></Rectangle>-->
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <!--<Setter TargetName="background" Property="Fill" Value="#AFEEEE"></Setter>-->
+                            <!--<Setter TargetName="flag" Property="Fill" Value="Orange"></Setter>-->
+                            <Setter TargetName="text" Property="Foreground" Value="#FF019ED5"></Setter>
+                        </Trigger>
+                        <DataTrigger Binding="{Binding IsCategory}" Value="true">
+                            <Setter TargetName="icon" Property="Source" Value="{Binding IsExpanded,Converter={StaticResource expandericon}}"></Setter>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="treeview" TargetType="TreeView">
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <Setter Property="IsExpanded" Value="{Binding IsExpanded}"></Setter>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type TreeViewItem}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="16"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Border Grid.ColumnSpan="3" Margin="-1600,0,0,0"  x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}"  SnapsToDevicePixels="true"/>
+                                    <ToggleButton Visibility="Hidden" x:Name="Expander" Grid.Column="0" IsChecked="{Binding Path=IsExpanded,RelativeSource={RelativeSource TemplatedParent}}" ClickMode="Press" Width="16" Height="16"/>
+                                    <ContentPresenter x:Name="PART_Header" Grid.Column="1" ContentSource="Header" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+                                    <ItemsPresenter x:Name="ItemsHost" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"/>
+                                </Grid>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsExpanded" Value="false">
+                                        <Setter TargetName="ItemsHost" Property="Visibility" Value="Collapsed"/>
+                                    </Trigger>
+                                    <Trigger Property="HasItems" Value="false">
+                                        <Setter TargetName="Expander" Property="Visibility" Value="Hidden"/>
+                                    </Trigger>
+                                    <MultiTrigger>
+                                        <MultiTrigger.Conditions>
+                                            <Condition Property="IsMouseOver" Value="true"/>
+                                            <Condition Property="HasItems" Value="false"/>
+                                        </MultiTrigger.Conditions>
+                                        <Setter Property="Background" Value="#FF90EE90"></Setter>
+                                    </MultiTrigger>
+                                    <MultiTrigger>
+                                        <MultiTrigger.Conditions>
+                                            <Condition Property="IsMouseOver" Value="true"/>
+                                            <Condition Property="HasItems" Value="true"/>
+                                        </MultiTrigger.Conditions>
+                                        <Setter Property="Background" Value="#FF90EE90"></Setter>
+                                        <Setter TargetName="Bd" Property="Opacity" Value="0.5"></Setter>
+                                    </MultiTrigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemTemplate">
+            <Setter.Value>
+                <HierarchicalDataTemplate  ItemsSource="{Binding Path=Items}">
+                    <Button Style="{StaticResource ResourceKey=navigateButton}" Content="{Binding}" Command="{Binding Path=Navigate}" CommandParameter="{Binding}"></Button>
+                </HierarchicalDataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="menu" TargetType="Menu">
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="{x:Type MenuItem}">
+                    <Setter Property="IsEnabled" Value="{Binding Enabled}"></Setter>
+                    <Setter Property="Icon" Value="{Binding Icon}"></Setter>
+                    <Setter Property="Command" Value="{Binding MenuCommand}"></Setter>
+                    <Setter Property="CommandParameter" Value="{Binding}"></Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemTemplate">
+            <Setter.Value>
+                <HierarchicalDataTemplate  ItemsSource="{Binding Path=SubMenu}">
+                    <TextBlock Text="{Binding Text}" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                </HierarchicalDataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Path x:Key="tabMenuButtonPath" Margin="2" Data="M0,1 H0,5 M7,8 L0,8 0,2 10,2 L10,5 M10,8 L10,10 8,10Z"
+            Stroke="#FF14273D" Fill="White" Stretch="Fill" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+    <LinearGradientBrush x:Key="tabItemMenuBackcolor" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Offset="0" Color="White"/>
+        <GradientStop Offset="1" Color="#EEE"/>
+    </LinearGradientBrush>
+    <Style x:Key="tabMenuButtonStyle" TargetType="{x:Type MenuItem}">
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Height" Value="16"/>
+        <Setter Property="Width" Value="16"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type MenuItem}">
+                    <Border Name="ButtonBorder" Margin="1" 
+                          BorderBrush="LightGray" 
+                          CornerRadius="1" 
+                          BorderThickness="1">
+                        <Grid>
+                            <ContentPresenter ContentSource="Header" 
+                                          Content="{StaticResource tabMenuButtonPath}"
+                                          HorizontalAlignment="Stretch"
+                                          VerticalAlignment="Stretch"/>
+                            <Popup Name="Popup"
+                               Placement="Bottom"
+                               IsOpen="{TemplateBinding IsSubmenuOpen}"
+                               AllowsTransparency="True" 
+                               Focusable="False"
+                               PopupAnimation="Fade">
+                                <Border Name="SubmenuBorder"
+                                   Margin="1"
+                                   SnapsToDevicePixels="True"
+                                   Background="{StaticResource tabItemMenuBackcolor}" 
+                                   CornerRadius="1" 
+                                   BorderThickness="1">
+                                    <StackPanel 
+                                    IsItemsHost="True" 
+                                    KeyboardNavigation.DirectionalNavigation="Cycle" />
+                                </Border>
+                            </Popup>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsHighlighted" Value="true">
+                            <Setter TargetName="ButtonBorder" Property="Background" 
+                                Value="Orange" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="tabMenuItem" TargetType="{x:Type MenuItem}">
+        <Style.Resources>
+            <LinearGradientBrush    
+                  x:Key="{x:Static SystemColors.HighlightBrushKey}"
+                  StartPoint="0.5,0" EndPoint="0.5,1">
+                <GradientStop Color="#FFFFD5A0" Offset="0.3"/>
+                <GradientStop Color="#FFEFA335" Offset="0.51"/>
+                <GradientStop Color="#FFFFC14A" Offset="0.986"/>
+            </LinearGradientBrush>
+        </Style.Resources>
+        <Setter Property="Header" Value="{Binding Path=Header}" />
+        <Setter Property="IsEnabled" Value="{Binding Path=IsEnabled}" />
+        <Setter Property="IsCheckable" Value="{Binding Path=IsEnabled}" />
+        <Setter Property="IsChecked" Value="{Binding Path=IsSelected, Mode=TwoWay}" />
+        <Style.Triggers>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="IsEnabled"
+                       Value="False"/>
+            </Trigger>
+            <Trigger Property="IsHighlighted" Value="True">
+                <Setter Property="Foreground"
+                       Value="Green"/>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" 
+                       Value="LightGray"/>
+                <Setter Property="Background"
+                                Value="#1555"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Path x:Key="arrowLeft" Stroke="Black" Stretch="Fill" Fill="Black" Data="M0,5 L10,10 10,0Z" Margin="4,3" VerticalAlignment="Center" HorizontalAlignment="Center"></Path>
+    <Path x:Key="arrowRight" Stroke="Black" Stretch="Fill"  Fill="Black" Data="M0,0 L10,5 L0,10Z" Margin="4,3" VerticalAlignment="Center" HorizontalAlignment="Center"></Path>
+    <Style x:Key="LineButtonStyle" TargetType="{x:Type RepeatButton}">
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Height" Value="16"/>
+        <Setter Property="Width" Value="16"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Border Name="ButtonBorder" Margin="1"
+                          BorderBrush="LightGray" 
+                          Background="White" 
+                          CornerRadius="1" 
+                          BorderThickness="1">
+                        <ContentPresenter HorizontalAlignment="Stretch"
+                                       VerticalAlignment="Stretch"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="ButtonBorder" Property="Background" 
+                                Value="Orange" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="ButtonBorder" Property="Background" 
+                                Value="Gray" />
+                            <Setter TargetName="ButtonBorder" Property="Opacity" 
+                                Value="0.4"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="scrollview" TargetType="{x:Type ScrollViewer}">
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Grid SnapsToDevicePixels="True">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="5"/>
+                        </Grid.ColumnDefinitions>
+                        <ScrollContentPresenter
+                           x:Name="PART_ScrollContentPresenter"
+                           VirtualizingStackPanel.IsVirtualizing="False"
+                           SnapsToDevicePixels="True"
+                           Grid.Column="0"
+                           Content="{TemplateBinding ScrollViewer.Content}"/>
+                        <Grid x:Name="gScrollButtons"
+                              HorizontalAlignment="Right"
+                              Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0"
+                                  Visibility="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type TabControl}}, Path=Items.Count, Converter={StaticResource intvisibility}}">
+                                <RepeatButton Style="{StaticResource LineButtonStyle}"
+                                 Command="ScrollBar.PageLeftCommand"
+                                 Content="{StaticResource arrowLeft}"/>
+                                <RepeatButton Style="{StaticResource LineButtonStyle}"
+                                 Command="ScrollBar.PageRightCommand"
+                                 Content="{StaticResource arrowRight}">
+                                </RepeatButton>
+                                <Menu Background="Transparent">
+                                    <MenuItem Style="{StaticResource tabMenuButtonStyle}" ItemContainerStyle="{StaticResource tabMenuItem}"
+                                          ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type TabControl}}, Path=Items}">
+                                    </MenuItem>
+                                </Menu>
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Value="false">
+                            <DataTrigger.Binding>
+                                <MultiBinding>
+                                    <Binding ElementName="svTP"
+                                    Path="HorizontalOffset"/>
+                                    <Binding ElementName="svTP"
+                                    Path="ViewportWidth"/>
+                                    <Binding ElementName="svTP"
+                                    Path="ExtentWidth"/>
+                                </MultiBinding>
+                            </DataTrigger.Binding>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="tabcontrolStyle" TargetType="{x:Type TabControl}">
+        <Setter Property="SnapsToDevicePixels" Value="true"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TabControl">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Border BorderThickness="0">
+                            <ScrollViewer Style="{StaticResource ResourceKey= scrollview}" HorizontalScrollBarVisibility="Hidden"
+                                          VerticalScrollBarVisibility="Disabled">
+                                <StackPanel IsItemsHost="True" Orientation="Horizontal"/>
+                            </ScrollViewer>
+                        </Border>
+
+                        <Border BorderThickness="1,0,1,1"
+                             Grid.Row="1">
+                             <ContentPresenter ContentSource="SelectedContent" Margin="0"/>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

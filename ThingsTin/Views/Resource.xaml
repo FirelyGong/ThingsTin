@@ -291,7 +291,7 @@
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
                     <Border Name="ButtonBorder" Margin="1"
                           BorderBrush="LightGray" 
-                          Background="White" 
+                          Background="Transparent" 
                           CornerRadius="1" 
                           BorderThickness="1">
                         <ContentPresenter HorizontalAlignment="Stretch"

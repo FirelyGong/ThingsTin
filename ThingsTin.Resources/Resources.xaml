@@ -44,23 +44,23 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border x:Name="OutBorder" CornerRadius="3" SnapsToDevicePixels="True" Background="{StaticResource OpButtonBorder}" BorderThickness="1" BorderBrush="{StaticResource OpButtonBorder}">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto"></ColumnDefinition>
-                                <ColumnDefinition Width="*"></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-                            <Border x:Name="ButtonEllipse" Width="10" CornerRadius="3" SnapsToDevicePixels="True" BorderThickness="0" Background="{Binding Path=Background,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Border}}"></Border>
-                            <Border x:Name="TextBorder" Grid.Column="1" CornerRadius="0,3,3,0" SnapsToDevicePixels="True" BorderThickness="0" Background="{StaticResource OpButtonBackground}">
-                                <TextBlock x:Name="BtnText" Text="{Binding Path=Content,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
-                                       HorizontalAlignment="Center" VerticalAlignment="Center" Margin="3" Background="Transparent"></TextBlock>
-                            </Border>
-                        </Grid>
+                    <Border CornerRadius="4" BorderBrush="Gray" BorderThickness="1">
+                        <Border x:Name="OutBorder" CornerRadius="3" BorderThickness="0" Background="{StaticResource OpButtonBorder}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="10"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Border x:Name="TextBorder" Grid.Column="1" Margin="0" CornerRadius="0,3,3,0" BorderThickness="0" Background="{StaticResource OpButtonBackground}">
+                                </Border>
+                                <TextBlock x:Name="BtnText" Grid.ColumnSpan="2" Text="{Binding Path=Content,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center" Background="Transparent"></TextBlock>
+                            </Grid>
+                        </Border>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter TargetName="OutBorder" Property="Background" Value="{StaticResource OpButtonHoverBorder}"></Setter>
-                            <Setter TargetName="OutBorder" Property="BorderBrush" Value="{StaticResource OpButtonHoverBorder}"></Setter>
                             <Setter TargetName="TextBorder" Property="Background" Value="{StaticResource OpButtonHoverBackground}"></Setter>
                             <Setter TargetName="BtnText" Property="Foreground" Value="White"></Setter>
                         </Trigger>

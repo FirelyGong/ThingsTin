@@ -20,6 +20,7 @@ namespace ThingsTin.Frame
 
         public void DoProgress(string title, string message, bool cancelable, Action<IProgressToken> job)
         {
+            IsCancelled = false;
             _progWindow = new ProgressWindow(this);
             if (!string.IsNullOrEmpty(title))
             {
@@ -42,7 +43,6 @@ namespace ThingsTin.Frame
         public void Cancel()
         {
             IsCancelled = true;
-            _progWindow.Close();
         }
 
         public bool IsCancelled

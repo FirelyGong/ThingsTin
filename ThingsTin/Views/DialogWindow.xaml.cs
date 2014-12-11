@@ -28,8 +28,8 @@ namespace ThingsTin.Views
         {
             container.Children.Clear();
             container.Children.Add(control);
-            Width = control.Width + 16;
-            Height = control.Height + 72;
+            Width = control.Width + 12;
+            Height = control.Height + 68;
         }
     }
 }

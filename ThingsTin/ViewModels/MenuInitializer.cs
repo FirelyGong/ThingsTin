@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Forms;
 using System.Windows.Media.Imaging;
 using ThingsTin.Frame;
 using ThingsTin.Interfaces;
@@ -41,7 +42,7 @@ namespace ThingsTin.ViewModels
 
         private void Close(object obj)
         {
-            Environment.Exit(0);
+            App.Current.Windows[0].Close();
         }
 
         private void AboutThingsTin(object obj)

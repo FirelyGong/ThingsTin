@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ThingsTin.Interfaces.Container;
 
 namespace ThingsTin.Controls
 {
@@ -21,9 +22,7 @@ namespace ThingsTin.Controls
     public partial class AutoTextBlock : UserControl
     {
         public static readonly DependencyProperty AutoTextProperty = DependencyProperty.Register("AutoText", typeof(string), typeof(AutoTextBlock), new PropertyMetadata(new PropertyChangedCallback(OnAutoTextBlockChanged)));
-
-        //private bool _isUpdating;
-
+        
         public AutoTextBlock()
         {
             InitializeComponent();
@@ -36,6 +35,15 @@ namespace ThingsTin.Controls
             }
             set
             {
+                if (!string.IsNullOrEmpty(value))
+                {
+                    text.Margin = new Thickness(2, 1, 2, 1);
+                }
+                else
+                {
+                    text.Margin = new Thickness(0);
+                }
+
                 SetValue(AutoTextProperty, value);
             }
         }
@@ -45,9 +53,14 @@ namespace ThingsTin.Controls
             ((AutoTextBlock)d).text.Text = e.NewValue.ToString();
             if (!string.IsNullOrEmpty(e.NewValue.ToString()))
             {
+                ((AutoTextBlock)d).text.Margin = new Thickness(2, 1, 2, 1);
                 ((AutoTextBlock)d).story.Stop();
                 ((AutoTextBlock)d).story.Seek(TimeSpan.FromSeconds(0));
                 ((AutoTextBlock)d).story.Begin();
+            }
+            else
+            {
+                ((AutoTextBlock)d).text.Margin = new Thickness(0);
             }
         }
 

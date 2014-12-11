@@ -11,7 +11,7 @@
         </ResourceDictionary>
     </Window.Resources>
     <Grid Background="Transparent">
-        <Border BorderBrush="#FFFF8C00" BorderThickness="3" CornerRadius="3"
+        <Border BorderBrush="{DynamicResource BaseColor}" BorderThickness="1" CornerRadius="0"
                 Background="White" Style="{StaticResource modelWindowShadow}">
             <Grid>
                 <Grid.RowDefinitions>

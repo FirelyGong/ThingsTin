@@ -66,7 +66,7 @@ namespace ThingsTin.Frame
 
         public void StartUp(SplashWindow startingWin, BootLoader loader)
         {
-            ThingsTinView mainView = new ThingsTinView();
+            ThingsTinView mainView = new ThingsTinView(this);
             ThingsTinViewModel containerViewModel = new ThingsTinViewModel();
             mainView.Show();
             containerViewModel.AddFunctions(loader.Functions);

@@ -13,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ThingsTin.Frame;
+using ThingsTin.Interfaces.Container;
 
 namespace ThingsTin.Views
 {
@@ -21,10 +23,12 @@ namespace ThingsTin.Views
     /// </summary>
     public partial class ThingsTinView : Window
     {
-        public ThingsTinView()
+        private IThingsTin _thingsTin;
+
+        public ThingsTinView(IThingsTin thingsTin)
         {
             InitializeComponent();
-
+            _thingsTin = thingsTin;
             WindowState = WindowState.Maximized;
             LoadAppImage();
         }
@@ -68,6 +72,14 @@ namespace ThingsTin.Views
                 thingImage.Width = bitmap.Width;
                 thingImage.Height = bitmap.Height;
             }
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            FrameEvent evt = new FrameEvent();
+            ((ThingsContainer)_thingsTin).ClosingFrame(evt);
+
+            e.Cancel = evt.IsCanceled;
         }
     }
 }

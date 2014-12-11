@@ -42,8 +42,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="TabItem">
                     <Grid Height="{DynamicResource TabHeaderHeight}">
-                        <Border Name="border" Margin="5,0,0,0" CornerRadius="3,3,0,0" BorderThickness="1,1,1,0"
-                                BorderBrush="{DynamicResource ActiveTabHeaderBorder}" Background="{DynamicResource ActiveTabHeaderBackground}">
+                        <Border Name="border" Margin="5,0,0,0" CornerRadius="0" BorderThickness="0" Background="{DynamicResource ActiveTabHeaderBackground}">
                             <Grid Margin="0,1,0,0">
                                 <ContentPresenter x:Name="ContentSite"
                                               VerticalAlignment="Center"
@@ -57,7 +56,7 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="false">
                             <Setter TargetName="border" Property="Background" Value="{DynamicResource ResourceKey=InactiveTabHeaderBackground}" />
-                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource ResourceKey=InactiveTabHeaderBorder}" />
+                            <!--<Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource ResourceKey=InactiveTabHeaderBorder}" />-->
                             <!--<Setter TargetName="tabFront" Property="Background" Value="{DynamicResource ResourceKey=InactiveTabHeaderBorder}" />-->
                             <Setter Property="Foreground" Value="Gray"></Setter>
                         </Trigger>

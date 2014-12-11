@@ -46,8 +46,11 @@ namespace ThingsTin.Frame
                 {
                     var model = _viewModel.AddPage(page.PageId, page.PageTitle, page.PageContent, new SimpleCommand(CloseOpendPage));
                     _pages.Add(new OpenedPage { Page = page, Model = model });
-
-                    _thingsTin.Dispatcher.BeginInvoke(new Action(() => page.Initialize(paramter)));
+                    _thingsTin.Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        page.Initialize(paramter);
+                        model.Focus();
+                    }));
                 }
             }
             catch (Exception ex)
@@ -70,20 +73,53 @@ namespace ThingsTin.Frame
             }
         }
 
+        public void CloseAllPages(bool force)
+        {
+            int count = PagesCount;
+            for (int i = 0; i < count; i++)
+            {
+                var resullt = CloseOpendPage(_pages[0].Page.PageId, force);
+                if(!resullt)
+                {
+                    break;
+                }
+            }
+        }
+
+        public int PagesCount
+        {
+            get
+            {
+                return _pages.Count;
+            }
+        }
+
         private void CloseOpendPage(object pageId)
+        {
+            CloseOpendPage(pageId, false);
+        }
+
+        private bool CloseOpendPage(object pageId, bool force)
         {
             var existPage = _pages.FirstOrDefault(p => p.Page.PageId.ToString() == pageId.ToString());
             if (existPage != null)
             {
-                var pageEvent = new PageEvent(existPage.Page.PageId);
+                var pageEvent = new PageEvent(existPage.Page.PageId) { IsForce = force };
                 existPage.Page.OnPageClosing(pageEvent);
 
-                if (!pageEvent.IsCanceled)
+                if (!pageEvent.IsCanceled || force)
                 {
                     _pages.Remove(existPage);
                     _viewModel.RemovePage(existPage.Model);
                     existPage.Page.OnPageClosed();
+                    return true;
                 }
+
+                return false;
+            }
+            else
+            {
+                return false;
             }
         }
     }

@@ -14,6 +14,7 @@ namespace ThingsTin.Interfaces.Container
         }
 
         public Guid PageId { get; private set; }
+        public bool IsForce { get; set; }
         public bool IsCanceled { get; set; }
         public string Message { get; set; }
     }

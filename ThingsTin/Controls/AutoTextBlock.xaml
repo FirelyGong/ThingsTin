@@ -4,8 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d">
-    <Grid>
-        <TextBlock Name="text" FontWeight="Bold">
+    <Grid x:Name="background" Background="White">
+        <TextBlock Name="text" FontWeight="Bold" VerticalAlignment="Center">
             <TextBlock.Triggers>
                 <EventTrigger RoutedEvent="TextBlock.TextInput">
                     <BeginStoryboard>

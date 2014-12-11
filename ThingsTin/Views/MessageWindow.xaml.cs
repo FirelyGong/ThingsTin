@@ -34,7 +34,7 @@ namespace ThingsTin.Views
             opContainer.Children.Clear();
             foreach (string op in options)
             {
-                Button btn = new Button { Width = 75, Height = 22, Margin = new Thickness(0), Content=op };
+                Button btn = new Button { Width = 75, Height = 22, Margin = new Thickness(0,0,10,0), Content=op };
                 btn.Style = (Style)ResourcesLoader.LoadResource("OperationButton");
                 btn.Click += btn_Click;
                 opContainer.Children.Add(btn);

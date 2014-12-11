@@ -16,5 +16,9 @@ namespace ThingsTin.Interfaces.Container
         void OpenPage(IOperationPage page, object parameter);
 
         void ClosePage(Guid pageId);
+
+        void CloseAllPages(bool force);
+
+        int PagesCount{get;}
     }
 }

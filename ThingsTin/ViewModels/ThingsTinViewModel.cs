@@ -178,7 +178,6 @@ namespace ThingsTin.ViewModels
             page.Style = _resourceDictionary["tabItem"] as Style;
             Pages.Add(page);
             CurrentPage = page;
-            page.Focus();
             return page;
         }
 

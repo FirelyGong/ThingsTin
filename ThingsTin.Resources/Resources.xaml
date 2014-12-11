@@ -44,14 +44,14 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border CornerRadius="4" BorderBrush="Gray" BorderThickness="1">
-                        <Border x:Name="OutBorder" CornerRadius="3" BorderThickness="0" Background="{StaticResource OpButtonBorder}">
+                    <Border x:Name="OutBorder" CornerRadius="0" SnapsToDevicePixels="True" BorderBrush="{StaticResource OpButtonBorder}" BorderThickness="1">
+                        <Border x:Name="InnerBorder" CornerRadius="0" BorderThickness="0" SnapsToDevicePixels="True" Background="{StaticResource OpButtonBorder}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="10"></ColumnDefinition>
                                     <ColumnDefinition Width="*"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
-                                <Border x:Name="TextBorder" Grid.Column="1" Margin="0" CornerRadius="0,3,3,0" BorderThickness="0" Background="{StaticResource OpButtonBackground}">
+                                <Border x:Name="TextBorder" Grid.Column="1" Margin="0" SnapsToDevicePixels="True" CornerRadius="0" BorderThickness="0" Background="{StaticResource OpButtonBackground}">
                                 </Border>
                                 <TextBlock x:Name="BtnText" Grid.ColumnSpan="2" Text="{Binding Path=Content,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
                                        HorizontalAlignment="Center" VerticalAlignment="Center" Background="Transparent"></TextBlock>
@@ -60,12 +60,13 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="OutBorder" Property="Background" Value="{StaticResource OpButtonHoverBorder}"></Setter>
+                            <Setter TargetName="OutBorder" Property="BorderBrush" Value="{StaticResource OpButtonHoverBorder}"></Setter>
+                            <Setter TargetName="InnerBorder" Property="Background" Value="{StaticResource OpButtonHoverBorder}"></Setter>
                             <Setter TargetName="TextBorder" Property="Background" Value="{StaticResource OpButtonHoverBackground}"></Setter>
                             <Setter TargetName="BtnText" Property="Foreground" Value="White"></Setter>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter TargetName="OutBorder" Property="Background" Value="{StaticResource OpButtonDisabledBorder}"></Setter>
+                            <Setter TargetName="InnerBorder" Property="Background" Value="{StaticResource OpButtonDisabledBorder}"></Setter>
                             <Setter TargetName="BtnText" Property="Foreground" Value="Gray"></Setter>
                         </Trigger>
                     </ControlTemplate.Triggers>
